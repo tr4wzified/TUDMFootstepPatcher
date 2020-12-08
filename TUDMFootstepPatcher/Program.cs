@@ -46,11 +46,11 @@ namespace TUDMFootstepPatcher
             FormKey UDRollNakedLandingSetKey = ultimateDodgeMod.MakeFormKey(0x011591);
             FormKey UDRollLightLandingSetKey = ultimateDodgeMod.MakeFormKey(0x011590);
             FormKey UDRollHeavyLandingSetKey = ultimateDodgeMod.MakeFormKey(0x01158F);
-            if (!state.LinkCache.TryLookup<IFootstepSetGetter>(UDRollNakedLandingSetKey, out var UDRollNakedLandingSet) || UDRollNakedLandingSet == null)
+            if (!state.LinkCache.TryResolve<IFootstepSetGetter>(UDRollNakedLandingSetKey, out var UDRollNakedLandingSet) || UDRollNakedLandingSet == null)
                 throw new Exception("ERROR: UDRollNakedLandingSet FormKey not found! Are you on the latest TUDM x64 version?");
-            if (!state.LinkCache.TryLookup<IFootstepSetGetter>(UDRollLightLandingSetKey, out var UDRollLightLandingSet) || UDRollLightLandingSet == null)
+            if (!state.LinkCache.TryResolve<IFootstepSetGetter>(UDRollLightLandingSetKey, out var UDRollLightLandingSet) || UDRollLightLandingSet == null)
                 throw new Exception("ERROR: UDRollLightLandingSet FormKey not found! Are you on the latest TUDM x64 version?");
-            if (!state.LinkCache.TryLookup<IFootstepSetGetter>(UDRollHeavyLandingSetKey, out var UDRollHeavyLandingSet) || UDRollHeavyLandingSet == null)
+            if (!state.LinkCache.TryResolve<IFootstepSetGetter>(UDRollHeavyLandingSetKey, out var UDRollHeavyLandingSet) || UDRollHeavyLandingSet == null)
                 throw new Exception("ERROR: UDRollHeavyLandingSet FormKey not found! Are you on the latest TUDM x64 version?");
 
             foreach (var armor in state.LoadOrder.PriorityOrder.WinningOverrides<IArmorGetter>())
