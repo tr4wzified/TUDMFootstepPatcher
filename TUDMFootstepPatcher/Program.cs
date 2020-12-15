@@ -55,7 +55,6 @@ namespace TUDMFootstepPatcher
 
             foreach (var armor in state.LoadOrder.PriorityOrder.WinningOverrides<IArmorGetter>())
             {
-                Console.WriteLine("CHECKING ARMOR " + armor.EditorID);
                 if (armor.Keywords == null) continue;
                 if (armor.Keywords.Contains(Skyrim.Keyword.ArmorCuirass) || armor.Keywords.Contains(Skyrim.Keyword.ClothingBody))
                 {
@@ -65,10 +64,8 @@ namespace TUDMFootstepPatcher
                         else
                         {
                             ArmorAddon armorAddon = armorAddonVar.DeepCopy();
-                            Console.WriteLine("CHECKING ARMATURE " + armorAddon.EditorID);
                             if (HasBodyFlag(armorAddon))
                             {
-                                Console.WriteLine("ARMATURE HAS BODYFLAG");
                                 switch(armor.DeepCopy().BodyTemplate!.ArmorType)
                                 {
                                     case ArmorType.Clothing:
