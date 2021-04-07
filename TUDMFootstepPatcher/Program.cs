@@ -5,6 +5,7 @@ using Mutagen.Bethesda.Synthesis;
 using Mutagen.Bethesda.Skyrim;
 using Mutagen.Bethesda.FormKeys.SkyrimSE;
 using Noggog;
+using System.Threading.Tasks;
 
 namespace TUDMFootstepPatcher
 {
@@ -12,20 +13,12 @@ namespace TUDMFootstepPatcher
     {
 
         static ModKey ultimateDodgeMod = ModKey.FromNameAndExtension("Ultimate Dodge Mod.esp");
-        public static int Main(string[] args)
+        public static Task<int> Main(string[] args)
         {
-                return SynthesisPipeline.Instance.Patch<ISkyrimMod, ISkyrimModGetter>(
-                args,
-                RunPatch,
-                new UserPreferences
-                {
-                    ActionsForEmptyArgs = new RunDefaultPatcher
-                    {
-                        IdentifyingModKey = "TUDMFootstepPatch.esp",
-                        TargetRelease = GameRelease.SkyrimSE
-                    }
-                });
-
+            return SynthesisPipeline.Instance
+                .AddPatch<ISkyrimMod, ISkyrimModGetter>(RunPatch)
+                .SetTypicalOpen(GameRelease.SkyrimSE, "TUDMFoostepPatch.esp")
+                .Run(args);
         }
 
         public static bool HasBodyFlag(ArmorAddon armorAddon)
@@ -38,7 +31,7 @@ namespace TUDMFootstepPatcher
             }
             return false;
         }
-        public static void RunPatch(SynthesisState<ISkyrimMod, ISkyrimModGetter> state)
+        public static void RunPatch(IPatcherState<ISkyrimMod, ISkyrimModGetter> state)
         {
             if (!state.LoadOrder.ContainsKey(ultimateDodgeMod))
                 throw new Exception("ERROR: The Ultimate Dodge Mod hasn't been detected in your load order. You need to install TUDM prior to running this patcher!");
@@ -69,13 +62,13 @@ namespace TUDMFootstepPatcher
                                 switch(armor.DeepCopy().BodyTemplate!.ArmorType)
                                 {
                                     case ArmorType.Clothing:
-                                        armorAddon.FootstepSound = UDRollNakedLandingSet.DeepCopy();
+                                        armorAddon.FootstepSound.SetTo(UDRollNakedLandingSet.DeepCopy());
                                         break;
                                     case ArmorType.LightArmor:
-                                        armorAddon.FootstepSound = UDRollLightLandingSet.DeepCopy();
+                                        armorAddon.FootstepSound.SetTo(UDRollLightLandingSet.DeepCopy());
                                         break;
                                     case ArmorType.HeavyArmor:
-                                        armorAddon.FootstepSound = UDRollHeavyLandingSet.DeepCopy();
+                                        armorAddon.FootstepSound.SetTo(UDRollHeavyLandingSet.DeepCopy());
                                         break;
                                 }
                                 state.PatchMod.ArmorAddons.Set(armorAddon);
