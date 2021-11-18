@@ -6,6 +6,7 @@ using Mutagen.Bethesda.Skyrim;
 using Mutagen.Bethesda.FormKeys.SkyrimSE;
 using Noggog;
 using System.Threading.Tasks;
+using Mutagen.Bethesda.Plugins;
 
 namespace TUDMFootstepPatcher
 {
